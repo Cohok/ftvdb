@@ -259,7 +259,7 @@ class video:
         try:
             a_keys = list(video_a_stream.keys())
             for key in a_keys:
-                info_key = "video_a" + key
+                info_key = "video_a_" + key
                 info[info_key] = video_a_stream[key]
                 try:
                     info['video_a_disposition'] = str(video_a_stream['disposition'])
