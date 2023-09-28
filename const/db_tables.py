@@ -235,7 +235,7 @@ tables_list[tables_count][1]=[	'video_id_part',						# 用于查询定位video_id中vid
 								'video_a_codec_type',
 								'video_a_codec_tag_string',
 								'video_a_codec_tag',
-								'video_a_codec_sample_fmt',
+								'video_a_sample_fmt',
 								'video_a_sample_rate',
 								'video_a_channels',
 								'video_a_channel_layout',
