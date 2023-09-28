@@ -1,16 +1,16 @@
 # 影视数据库建设
 
 ## 环境要求
-Python Version：3.7.12  
+1. Python Version：3.7.12  
     conda create pyscenedetect python=3.7.12  
-必要库：  
+2. ffmpeg安装并添加至path（ 链接：https://ffmpeg.org/download.html ）
+3. 必要库requirements：  
+    numpy：pip install numpy   
+    openCV：pip install opencv-python  
     ffmpeg：pip install ffmpeg-python  
     pyscenedetect：pip install scenedetect[opencv] --upgrade （ 链接：https://github.com/Breakthrough/PySceneDetect ）  
-    numpy：pip install numpy  
-    matplotlib：pip install matplotlib  
-    openCV：pip install opencv-python
-ffmpeg安装并添加至path（ 链接：https://ffmpeg.org/download.html ）
     
+
 ## 文件目录管理
 目录管理：  
 “/”：根目录  
