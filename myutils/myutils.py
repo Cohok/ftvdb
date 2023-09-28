@@ -397,7 +397,10 @@ class video:
         sceneinfo['scene_file_name']        = dbinfo['video_db_name'] + '-Scene-'+ sceneinfo['scene_id_part'] + "." + dbinfo['video_extension_name']
         sceneinfo['scene_file_dir']         = "./multimedia/%s/" %dbinfo['video_db_name']
         sceneinfo['scene_file_path']        = sceneinfo['scene_file_dir'] + sceneinfo['scene_file_name']
-        sceneinfo['scene_duration']         = self.getVideoInfo(sceneinfo['scene_file_path'])['video_v_duration']
+        try:
+            sceneinfo['scene_duration']     = self.getVideoInfo(sceneinfo['scene_file_path'])['video_v_duration']
+        except:
+            sceneinfo['scene_duration']     = self.getVideoInfo(sceneinfo['scene_file_path'])['video_duration']
         return sceneinfo
     def getSceneData(self, scene_squence_number): # 返回一个拆分的镜头视频文件的信息
         sceneinfo = self.getSceneDataTool(self.db_name, self.production_name, self.video_episode, self.video_version, scene_squence_number)
