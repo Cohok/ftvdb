@@ -276,7 +276,7 @@ class video:
         try:
             s_keys = list(video_s_stream.keys()) #subtitle
             for key in s_keys:
-                info_key = "video_s" + key
+                info_key = "video_s_" + key
                 info[info_key] = video_s_stream[key]
                 try:
                     info['video_s_disposition'] = str(video_s_stream['disposition'])
