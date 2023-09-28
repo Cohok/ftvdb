@@ -501,7 +501,7 @@ class video:
             print("开始写入数据库信息...")
             if videodbinfo['production_id_renew'] == 1:
                 db.insertData('productions', production_keys, production_data)
-                db.update('productions', 'production_id_next', [production_id_next], 'production_id == 0xffffffffffffffff')
+                db.updateData('productions', 'production_id_next', [production_id_next], 'production_id == 0xffffffffffffffff')
             db.insertData('videos', video_keys, video_data)
             db.commit()
             dir_name_1 = './multimedia/%s_frames' %self.video_db_name
