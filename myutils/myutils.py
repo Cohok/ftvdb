@@ -384,7 +384,7 @@ class video:
     def getSceneDataTool(self, db_name, production_name, video_episode, video_version, scene_squence_number): # 返回一个拆分的镜头视频文件的信息
         sceneinfo = {}
         total_scenes_nb = len(self.scene_list)
-        scene_id_part_len = max(int(math.log10(total_scenes_nb)),3)
+        scene_id_part_len = max(int(math.log10(total_scenes_nb))+1,3)
         dbinfo = self.getDBInfo(db_name, production_name, video_episode, video_version)
         sceneinfo['scene_id_part']          = str(scene_squence_number).rjust(scene_id_part_len,'0')
         sceneinfo['video_id']               = dbinfo['video_id']
