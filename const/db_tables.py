@@ -47,7 +47,7 @@ tables_list[tables_count][2]=['TEXT',									# 'participant_id_last'
 							  ''																					## 设置主键
 							  ]
 tables_list[tables_count][3]=[tables_list[tables_count][1][0],tables_list[tables_count][1][1]]
-tables_list[tables_count][4]=[('0x0000000000000001','0xffffffffffffffff')]	# 初始化时，production_id_last定位数为1，每增加一条记录，增加1
+tables_list[tables_count][4]=[('0x0000000000000000','0xffffffffffffffff')]	# 初始化时，production_id_last定位数为1，每增加一条记录，增加1
 tables_dict[tables_count]=tables_list[tables_count][0]
 tables_count += 1
 
