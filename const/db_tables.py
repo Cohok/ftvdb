@@ -66,7 +66,7 @@ tables_list[tables_count][2]=['TEXT',									# 'proles_id_last'
 							  ''																					## 设置主键
 							  ]
 tables_list[tables_count][3]=[tables_list[tables_count][1][0],tables_list[tables_count][1][1]]
-tables_list[tables_count][4]=[('0x0000000000000001','0xffffffffffffffff')]	# 初始化时，production_id_last定位数为1，每增加一条记录，增加1
+tables_list[tables_count][4]=[('0x0000000000000000','0xffffffffffffffff')]	# 初始化时，production_id_last定位数为1，每增加一条记录，增加1
 tables_dict[tables_count]=tables_list[tables_count][0]
 tables_count += 1
 
@@ -157,7 +157,7 @@ tables_list[tables_count][2]=['TEXT',									# 'production_id_next'
 							  'REFERENCES scope_production_MPAA_rating(production_MPAA_rating)'						## 外键条件参照production_MPAA_rating
 							  ]
 tables_list[tables_count][3]=[tables_list[tables_count][1][0],tables_list[tables_count][1][1]]
-tables_list[tables_count][4]=[('0x0000000000000001','0xffffffffffffffff')]	# 初始化时，production_id_last定位数为1，每增加一条记录，增加1
+tables_list[tables_count][4]=[('0x0000000000000000','0xffffffffffffffff')]	# 初始化时，production_id_last定位数为1，每增加一条记录，增加1
 tables_dict[tables_count]=tables_list[tables_count][0]
 tables_count += 1
 
@@ -170,7 +170,10 @@ tables_list[tables_count][1]=[	'video_id_part',						# 用于查询定位video_id中vid
 								'production_id',						# 视频所属作品在productions表中的production_id，外键限制
 								'video_episode',						# 视频集序数，即第几集
 								'video_version',						# 视频版本，因为一部作品可能存在多个版本的视频，如删减版、地区版等，在该字段标注，唯一版本标注建议标注“v1”
-								'video_extension_name',					# 视频文件扩展名
+								'video_db_file_basename',				# 视频文件名
+								'video_db_file_extensionname',			# 视频文件扩展名
+								'video_db_file_dir',					# 视频所在文件夹路径
+								'video_db_file_path',					# 视频完整路径
 								#------------以下字段为ffmpeg.probe['format']提供的字段信息------------
 								'video_probe',							# ffprobe字符串化后的信息
 								'video_filename',						# 视频文件完整路径及名字
@@ -275,7 +278,10 @@ tables_list[tables_count][2]=[	'TEXT',									# 'video_id_part'
 							  	'TEXT',									# 'production_id'
 							  	'TEXT',									# 'video_version'
 							  	'INTEGER',								# 'video_episode'
-							  	'TEXT',									# 'video_extension_name'
+							  	'TEXT',									# 'video_db_file_basename'
+							  	'TEXT',									# 'video_db_file_extensionname'
+							  	'TEXT',									# 'video_db_file_dir'
+							  	'TEXT',									# 'video_db_file_path'
 								#------------以下字段为ffmpeg.probe['format']提供的字段信息------------
 								'TEXT',									# 'video_probe',
 								'TEXT',									# 'video_filename',	
@@ -392,8 +398,9 @@ tables_list[tables_count][1]=['scene_id_part',							# 用于查询定位scene_id中的s
 							  'scene_duration',							# 镜头总时长
 							  'scene_in_point_frame',					# 镜头入点帧序数，即使在视频的第几帧
 							  'scene_out_point_frame',					# 镜头出点帧序数，即使在视频的第几帧
-							  'scene_file_name',						# 镜头文件名
-							  'scene_file_dir',							# 镜头文件路径
+							  'scene_file_basename',					# 镜头文件名
+							  'scene_file_extensionname',				# 镜头文件扩展名
+							  'scene_file_dir',							# 镜头文件所在目录路径
 							  'scene_file_path',						# 镜头完整文件路径
 							  'scene_scenery_1',						# 镜头景别1级，外键限制，来自TABLE scope_scene_scenery
 							  'scene_scenery_2',						# 镜头景别2级，外键限制，来自TABLE scope_scene_scenery
@@ -430,10 +437,11 @@ tables_list[tables_count][2]=['INTEGER',								# 'scene_id_part'
 							  'TEXT',									# 'production_id'
 							  'REAL',									# 'scene_in_point'
 							  'REAL',									# 'scene_out_point'
-							  'REAL',									# 'scene_total_running_time'
+							  'REAL',									# 'scene_duration'
 							  'INTEGER',								# 'scene_in_point_frame'
 							  'INTEGER',								# 'scene_out_point_frame'
-							  'TEXT',									# 'scene_file_name'
+							  'TEXT',									# 'scene_file_basename'
+							  'TEXT',									# 'scene_file_extensionname'
 							  'TEXT',									# 'scene_file_dir'
 							  'TEXT',									# 'scene_file_path'
 							  'TEXT',									# 'scene_scenery_1'
@@ -480,6 +488,10 @@ tables_list[tables_count][1]=['frame_id_part',							# 用于查询定位scene_id中的s
 							  'production_id',							# 镜头所属视频所在作品在productions表中的production_id，外键限制
 							  'frame_timecode',							# 帧时刻
 							  'frame_sequence_nb',						# 帧序数
+							  'frame_file_basename',					# 帧文件名
+							  'frame_file_extensionname',				# 帧文件扩展名
+							  'frame_file_dir',							# 帧文件所在目录路径
+							  'frame_file_path',						# 帧文件完整路径
 							  'PRIMARY KEY(frame_id)',																## 设置主键
 							  'FOREIGN KEY(scene_id)',																## 外键条件production_id
 							  'FOREIGN KEY(production_id)',															## 外键条件production_id
@@ -492,6 +504,10 @@ tables_list[tables_count][2]=['INTEGER',								# 'frame_id_part'
 							  'TEXT',									# 'production_id'
 							  'TEXT',									# 'frame_timecode'
 							  'INTEGER',								# 'frame_sequence_nb'
+							  'TEXT',									# 'frame_file_basename',
+							  'TEXT',									# 'frame_file_extensionname',
+							  'TEXT',									# 'frame_file_dir'
+							  'TEXT',									# 'frame_file_path'
 							  '',																					## 设置主键
 							  'REFERENCES scenes(scene_id)',														## 外键条件参照production_id
 							  'REFERENCES productions(production_id)',												## 外键条件参照production_id
