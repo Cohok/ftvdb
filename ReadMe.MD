@@ -8,7 +8,20 @@
     numpy：pip install numpy   
     openCV：pip install opencv-python  
     ffmpeg：pip install ffmpeg-python  
-    pyscenedetect：pip install scenedetect[opencv] --upgrade （ 链接：https://github.com/Breakthrough/PySceneDetect ）  
+    pyscenedetect：pip install scenedetect[opencv] --upgrade （ 链接：https://github.com/Breakthrough/PySceneDetect ） 
+    (安装dlib及依赖）
+    cmake: pip install cmake
+    boost: pip install boost
+    dlib: pip install dlib/ conda install -c conda-forge dlib
+    (安装face_recognition)
+    face_recognition: pip install face_recognition
+    (安装cvlib及依赖)
+    requests: pip install requests
+    progressbar: pip install progressbar
+    pillow: pip install pillow
+    tensorflow: pip install tensorflow
+    keras: pip install keras
+    cvlib: pip install cvlib
     
 
 ## 文件目录管理
