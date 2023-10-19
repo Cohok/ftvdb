@@ -674,6 +674,7 @@ class DBVideo(DB, Video):
             silence = silent.index('silent')
         except:
             silence = -1
+        print("正在读取视频文件信息：%s" %self.video_input_file_path)
         scenes_list = self.getScenesList()
         key_frames_list = self.getFramesTypeList("I")
         if silence == -1:
