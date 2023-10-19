@@ -700,12 +700,13 @@ class DBVideo(DB, Video):
         self.production_id_renew = 0
         if silence == -1:    
             print("4. productions TABLE数据写入完成")
-        if silence == -1:
-            print("5. 正在写入videos TABLE数据...")
-        self.videosData2DB()
-        self.video_data_existance_in_db =1
-        if silence == -1:
-            print("5. videos TABLE数据写入完成")
+        if self.production_id_renew == 1:
+            if silence == -1:
+                print("5. 正在写入videos TABLE数据...")
+            self.videosData2DB()
+            self.video_data_existance_in_db =1
+            if silence == -1:
+                print("5. videos TABLE数据写入完成")
         if silence == -1:
             print("6.正在写入scenes TABLE数据...")
         self.scenesData2DB(scenes_list)
