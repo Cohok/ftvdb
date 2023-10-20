@@ -191,6 +191,7 @@ class DB:
         except:
             pass
         if self.db_existance: 
+            self.close()
             print("同名数据库文件已存在，若要重新初始化请备份后手动删除")
         else:
             self.createScopeTables()
