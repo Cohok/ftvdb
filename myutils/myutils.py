@@ -123,6 +123,7 @@ class DB:
             query = '''UPDATE %s SET %s;''' %(table_name, update_value)
         else:
             query = '''UPDATE %s SET %s WHERE %s;''' %(table_name, update_value, conditions[0])
+        print(query)
         self.cur.execute(query)
     def dbMergeTool(self, db1_path, db2_path): #数据库合并，把数据db2_path合并到db1_path中，要求结构完全相同的两个.db文件
         conn = sqlite3.connect(db1_path)
@@ -539,7 +540,7 @@ class DBVideo(DB, Video):
     def productionsData2DB(self):
         production_keys, production_data = self.getProductionsData()
         self.insertData('productions', production_keys, production_data)
-        self.updateData('productions', ['production_id_next'], [self.production_id_next], 'production_id == 0xffffffffffffffff')
+        self.updateData('productions', ['production_id_next'], [self.production_id_next], 'production_id == "0xffffffffffffffff"')
         self.commit()
     def getVideosData(self):
         video_data_dict = self.getVideoInfo()
@@ -695,12 +696,13 @@ class DBVideo(DB, Video):
         self.getScenesKeyFrames(self.scene_file_dir)
         if silence == -1:
             print("3. 完成关键帧文件入库，文件目录：%s" % self.frame_file_dir)
-        if silence == -1:
-            print("4. 正在写入productions TABLE数据...")
-        self.productionsData2DB()
-        self.production_id_renew = 0
-        if silence == -1:    
-            print("4. productions TABLE数据写入完成")
+        if self.production_id_renew == 1:
+            if silence == -1:
+                print("4. 正在写入productions TABLE数据...")
+            self.productionsData2DB()
+            self.production_id_renew = 0
+            if silence == -1:    
+                print("4. productions TABLE数据写入完成")
         if self.production_id_renew == 1:
             if silence == -1:
                 print("5. 正在写入videos TABLE数据...")
