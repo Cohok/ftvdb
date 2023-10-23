@@ -273,6 +273,8 @@ class Video:
             for frame_no in frames_type_list:
                 cap.set(cv2.CAP_PROP_POS_FRAMES, frame_no)
                 ret, frame = cap.read()
+                frame[:,:,[0,1,2]]=frame[:,:,[2,1,0]] #存储格式由BGR转为RGB
+                print(frame)
                 outname = basename + '_' + str(frame_no) + '_' + frame_type + '.jpg'
                 if os.path.exists(os.path.join(res_dir, outname)):
                     pass
