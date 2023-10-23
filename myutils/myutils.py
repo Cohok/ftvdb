@@ -3,7 +3,7 @@
 # 作者：huangpengjie，联系邮箱：380781528@qq.com
 # ====================================================================
 
-import sqlite3, scenedetect, ffmpeg, cv2, sys, os, shutil, math, subprocess
+import sqlite3, scenedetect, ffmpeg, cv2, sys, os, shutil, math, subprocess, csv
 import numpy as np
 from PIL import Image
 from scenedetect import detect, ContentDetector, split_video_ffmpeg, SceneManager, open_video
@@ -117,13 +117,15 @@ class DB:
             return -1
         else:
             for i in range(len(column_name)):
-                update_value_i = '%s = %r' %(column_name[i], new_data[i])
+                update_value_i = '%s = %r ' %(column_name[i], new_data[i])
                 update_value  += update_value_i
+                if i<len(column_name)-1:
+                    update_value  += ","
         if conditions ==():
             query = '''UPDATE %s SET %s;''' %(table_name, update_value)
         else:
             query = '''UPDATE %s SET %s WHERE %s;''' %(table_name, update_value, conditions[0])
-        print(query)
+        #print(query)
         self.cur.execute(query)
     def dbMergeTool(self, db1_path, db2_path): #数据库合并，把数据db2_path合并到db1_path中，要求结构完全相同的两个.db文件
         conn = sqlite3.connect(db1_path)
@@ -151,6 +153,14 @@ class DB:
         conn.commit()
         conn.execute("DETACH DATABASE w")
         conn.close()
+    def export2csv(self, table_name, export_file_path): #导出TABLE到csv文件，解决导出编码乱码问题
+        query = 'SELECT * FROM %s' % table_name
+        self.cur.execute(query)
+        with open(export_file_path, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([i[0] for i in self.cur.description]) #写入表头
+            writer.writerows(self.cur)
+        self.conn.close()
     ####==============================第五部分-影视数据库操作==============================
     def createScopeTables(self): #批量创建范围限定表
         for i in range(scope_tables.tables_count):
@@ -636,7 +646,7 @@ class DBVideo(DB, Video):
             self.insertData('frames', frame_data_keys, frame_data_values)
             self.commit()
     def framesData2DB(self, frames_list):
-        self.framesData2DBTool(self.video_input_file_path, 'I', 0, frames_list)
+        self.framesData2DBTool(self.video_db_file_path, 'I', 0, frames_list)
     def checkAndVideo2DB(self):
         # 检查任务是否执行
         tasks, scenes_list, key_frames_list = self.checkTasks()
